@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.eclipse.scout.apps</groupId>
+    <artifactId>contactscout-root</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>contactscout</artifactId>
+  <packaging>pom</packaging>
+  <name>ContactApplication</name>
+
+  <properties>
+    <org.eclipse.scout.apps.contactscout.version>${project.version}</org.eclipse.scout.apps.contactscout.version>
+    <jdk.source.version>11</jdk.source.version>
+    <org.eclipse.scout.rt.version>22.0.41</org.eclipse.scout.rt.version>
+    <master_npm_release_dependency_mapping>--mapping.0.regex=@eclipse-scout --mapping.0.version=${org.eclipse.scout.rt.version}</master_npm_release_dependency_mapping>
+  </properties>
+
+  <modules>
+    <module>../contactscout.shared</module>
+    <module>../contactscout.server</module>
+    <module>../contactscout.client</module>
+    <module>../contactscout.server.app.war</module>
+    <module>../contactscout.server.app.dev</module>
+    <module>../contactscout.ui.html</module>
+    <module>../contactscout.ui.html.app.war</module>
+    <module>../contactscout.ui.html.app.dev</module>
+  </modules>
+
+  <dependencyManagement>
+    <dependencies>
+      <!-- Scout Dependencies -->
+      <dependency>
+        <groupId>org.eclipse.scout.rt</groupId>
+        <artifactId>org.eclipse.scout.rt</artifactId>
+        <version>${org.eclipse.scout.rt.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+      <!-- Application Dependencies -->
+      <dependency>
+        <groupId>org.eclipse.scout.apps</groupId>
+        <artifactId>contactscout.client</artifactId>
+        <version>${org.eclipse.scout.apps.contactscout.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.scout.apps</groupId>
+        <artifactId>contactscout.shared</artifactId>
+        <version>${org.eclipse.scout.apps.contactscout.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.scout.apps</groupId>
+        <artifactId>contactscout.server</artifactId>
+        <version>${org.eclipse.scout.apps.contactscout.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.scout.apps</groupId>
+        <artifactId>contactscout.ui.html</artifactId>
+        <version>${org.eclipse.scout.apps.contactscout.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+</project>

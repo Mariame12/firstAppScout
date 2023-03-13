@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Mon Mar 13 09:25:21 GMT 2023:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.2.0 - (1873585): instance a816c00e-0186-da49-e5ac-00000ee6ea40 
+on database directory memory:/Users/mariamesasconte/Documents/Sepro/Scoot/contactscout/contactscout/contactscout.server.app.dev/contacts-database with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@512ddf17 
+Loaded from file:/Users/mariamesasconte/.m2/repository/org/apache/derby/derby/10.15.2.0/derby-10.15.2.0.jar
+java.vendor=Oracle Corporation
+java.runtime.version=11.0.2+9
+user.dir=/Users/mariamesasconte/Documents/Sepro/Scoot/contactscout/contactscout/contactscout.server.app.dev
+os.name=Mac OS X
+os.arch=x86_64
+os.version=10.16
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
