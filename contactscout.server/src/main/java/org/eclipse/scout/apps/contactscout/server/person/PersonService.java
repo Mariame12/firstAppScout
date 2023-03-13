@@ -21,10 +21,6 @@ public class PersonService implements IPersonService {
     @Override
     public PersonTablePageData getPersonTableData(SearchFilter filter) {
         PersonTablePageData pageData = new PersonTablePageData();
-// TODO [mariamesasconte] fill pageData.
-        //String sql = SQLs.PERSON_PAGE_SELECT + SQLs.PERSON_PAGE_DATA_SELECT_INTO;
-        //SQL.selectInto(sql, new NVPair("page", pageData));
-      //StringBuilder sql = new StringBuilder(SQLs.PERSON_PAGE_SELECT);
 
       // if an organization is defined, restrict result set to persons that are linked to it
       /*if (StringUtility.hasText(organizationId)) {
