@@ -24,7 +24,7 @@ import org.eclipse.scout.rt.platform.text.TEXTS;
 import org.eclipse.scout.rt.platform.util.StringUtility;
 import org.eclipse.scout.rt.shared.services.common.code.ICodeType;
 import org.eclipse.scout.rt.shared.services.lookup.ILookupCall;
-
+//import org.eclipse.scout.rt.client.ui.form.fields.smartfield.SmartField;
 
 
 
@@ -34,7 +34,7 @@ public class PersonForm extends AbstractForm {
 
   private String personId;
 
-
+  private String parentId;
 
 
   @Override
@@ -69,7 +69,6 @@ public class PersonForm extends AbstractForm {
     return "Person";
   }
 
-
   public MainBox getMainBox() {
     return getFieldByClass(MainBox.class);
   }
@@ -81,6 +80,12 @@ public class PersonForm extends AbstractForm {
   //public MainBox.GeneralBox.OrganizationField  getOrganizationField(){return getFieldByClass(MainBox.GeneralBox.OrganizationField.class);}
   public MainBox.GeneralBox.FirstNameField getFirstNameField(){return getFieldByClass(MainBox.GeneralBox.FirstNameField.class);}
   public MainBox.GeneralBox.LastNameField getLastNameField(){return getFieldByClass(MainBox.GeneralBox.LastNameField.class) ;}
+
+  public MainBox.GeneralBox.ParentIdField getParentIdField() {
+    return getFieldByClass(MainBox.GeneralBox.ParentIdField.class);
+  }
+
+  public MainBox.GeneralBox.RelationTypeField getRelationTypeField() {return getFieldByClass(MainBox.GeneralBox.RelationTypeField.class);}
   @Order(1000)
   public class MainBox extends AbstractGroupBox {
     @Order(1000)
@@ -192,11 +197,42 @@ public class PersonForm extends AbstractForm {
           return OrganisationLookupCall.class;
         }
       }*/
+      @Order(90)
+      public class RelationTypeField extends AbstractSmartField<String> {
+        @Override
+        protected Class<? extends ICodeType<?, String>> getConfiguredCodeType() {
+          return RelationCodeType.class;
+        }
+
+        @Override
+        protected boolean getConfiguredEnabled() {
+          return false;
+        }
+      }
+
+      @Order(95)
+      public class ParentIdField extends AbstractStringField {
+        @Override
+        protected String getConfiguredLabel() {
+          return TEXTS.get("IdPARENT");
+        }
+
+        @Override
+        protected int getConfiguredMaxLength() {
+          return 128;
+        }
+        @Override
+        protected boolean getConfiguredVisible() {
+          return false;
+        }
+      }
+
       @Order(100)
       public class NotesBox extends AbstractNotesBox {
 
 
       }
+
 
       protected boolean execValidate() {
         boolean noFirstName = StringUtility.isNullOrEmpty(getFirstNameField().getValue());

@@ -5,6 +5,11 @@ import org.eclipse.scout.apps.contactscout.client.person.PersonCardForm.MainBox.
 import org.eclipse.scout.apps.contactscout.shared.organization.OrganisationLookupCall;
 import org.eclipse.scout.apps.contactscout.shared.person.*;
 import org.eclipse.scout.rt.client.dto.FormData;
+import org.eclipse.scout.rt.client.ui.action.menu.AbstractMenu;
+import org.eclipse.scout.rt.client.ui.action.menu.IMenuType;
+import org.eclipse.scout.rt.client.ui.action.menu.TableMenuType;
+import org.eclipse.scout.rt.client.ui.basic.table.AbstractTable;
+import org.eclipse.scout.rt.client.ui.basic.table.columns.AbstractStringColumn;
 import org.eclipse.scout.rt.client.ui.form.AbstractForm;
 import org.eclipse.scout.rt.client.ui.form.AbstractFormHandler;
 import org.eclipse.scout.rt.client.ui.form.IForm;
@@ -17,11 +22,17 @@ import org.eclipse.scout.rt.client.ui.form.fields.radiobuttongroup.AbstractRadio
 import org.eclipse.scout.rt.client.ui.form.fields.smartfield.AbstractSmartField;
 import org.eclipse.scout.rt.client.ui.form.fields.stringfield.AbstractStringField;
 import org.eclipse.scout.rt.client.ui.form.fields.tabbox.AbstractTabBox;
+import org.eclipse.scout.rt.client.ui.form.fields.tablefield.AbstractTableField;
 import org.eclipse.scout.rt.platform.BEANS;
 import org.eclipse.scout.rt.platform.Order;
+import org.eclipse.scout.rt.platform.classid.ClassId;
 import org.eclipse.scout.rt.platform.text.TEXTS;
+import org.eclipse.scout.rt.platform.util.CollectionUtility;
 import org.eclipse.scout.rt.shared.services.common.code.ICodeType;
+import org.eclipse.scout.rt.shared.services.common.jdbc.SearchFilter;
 import org.eclipse.scout.rt.shared.services.lookup.ILookupCall;
+
+import java.util.Set;
 
 @FormData(value = PersonCardFormData.class, sdkCommand = FormData.SdkCommand.CREATE)
 public class PersonCardForm extends AbstractForm {
@@ -50,6 +61,19 @@ public class PersonCardForm extends AbstractForm {
   }
 
   private  String workId;
+  private String relationType;
+
+  @FormData
+  public String getRelationType() {
+    return relationType;
+  }
+
+  @FormData
+  public void setRelationType(String relationType) {
+    this.relationType = relationType;
+  }
+
+
 
     @Override
     protected String getConfiguredTitle() {
@@ -61,8 +85,15 @@ public class PersonCardForm extends AbstractForm {
         return IForm.DISPLAY_HINT_VIEW;
     }
 
+  public MainBox.DetailBox.ChieldBox getChieldBox() {
+    return getFieldByClass(MainBox.DetailBox.ChieldBox.class);
+  }
 
-    public MainBox.DetailBox getDetailBox() {
+  public MainBox.DetailBox.ChieldBox.ChieldTableField getChieldTableField() {
+    return getFieldByClass(MainBox.DetailBox.ChieldBox.ChieldTableField.class);
+  }
+
+  public MainBox.DetailBox getDetailBox() {
         return getFieldByClass(MainBox.DetailBox.class);
     }
 
@@ -77,6 +108,7 @@ public class PersonCardForm extends AbstractForm {
   public MainBox.ModifyButton getModifyButton() {
     return getFieldByClass(MainBox.ModifyButton.class);
   }
+
 
 
 
@@ -140,76 +172,20 @@ public class PersonCardForm extends AbstractForm {
                 }
 
             }
-
-            @Order(50)
-            public class WorkBox extends AbstractGroupBox {
-                @Override
-                protected String getConfiguredLabel() {
-                    return "Travail";
-                }
-              @Override
-              protected boolean getConfiguredEnabled() {
-                return false;
-              }
-
-                @Order(60)
-                public class PositionField extends AbstractStringField {
-
-
-                    @Override
-                    protected String getConfiguredLabel() {
-                        return "Position";
-                    }
-                }
-
-                @Order(60)
-                public class OrganisationField extends AbstractSmartField<String> {
-
-
-                    @Override
-                    protected String getConfiguredLabel() {
-                        return "Organization";
-                    }
-
-
-                    @Override
-                    protected Class<? extends ILookupCall<String>> getConfiguredLookupCall() {
-                        return OrganisationLookupCall.class;
-                    }
-                }
-
-                @Order(60)
-                public class PhoneWorkField extends AbstractStringField {
-
-
-                    @Override
-                    protected String getConfiguredLabel() {
-                        return "Phone";
-                    }
-                }
-
-                @Order(60)
-                public class EmailWorkField extends AbstractStringField {
-
-
-                    @Override
-                    protected String getConfiguredLabel() {
-                        return "Email";
-                    }
-                }
-            }
-
-
         }
 
         @Order(2000)
         public class DetailBox extends AbstractTabBox {
-          protected boolean getConfiguredEnabled() {
-            return false;
-          }
             @Order(10)
             public class ContactInfoBox extends AbstractGroupBox {
-
+              @Override
+              protected String getConfiguredLabel() {
+                return "Contacts";
+              }
+              @Override
+              protected boolean getConfiguredEnabled() {
+                return false;
+              }
                 @Order(40)
                 public class PhoneField extends AbstractStringField {
 
@@ -243,11 +219,213 @@ public class PersonCardForm extends AbstractForm {
 
 
             }
+          @Order(20)
+          public class WorkBox extends AbstractGroupBox {
+            @Override
+            protected String getConfiguredLabel() {
+              return "Travail";
+            }
+            @Override
+            protected boolean getConfiguredEnabled() {
+              return false;
+            }
+
+            @Order(60)
+            public class PositionField extends AbstractStringField {
+
+
+              @Override
+              protected String getConfiguredLabel() {
+                return "Position";
+              }
+            }
+
+            @Order(60)
+            public class OrganisationField extends AbstractSmartField<String> {
+
+
+              @Override
+              protected String getConfiguredLabel() {
+                return "Organization";
+              }
+
+
+              @Override
+              protected Class<? extends ILookupCall<String>> getConfiguredLookupCall() {
+                return OrganisationLookupCall.class;
+              }
+            }
+
+            @Order(60)
+            public class PhoneWorkField extends AbstractStringField {
+
+
+              @Override
+              protected String getConfiguredLabel() {
+                return "Phone";
+              }
+            }
+
+            @Order(60)
+            public class EmailWorkField extends AbstractStringField {
+
+
+              @Override
+              protected String getConfiguredLabel() {
+                return "Email";
+              }
+            }
+          }
+
+          @Order(2000)
+          public class ChieldBox extends AbstractGroupBox {
+            @Override
+            protected String getConfiguredLabel() {
+              return TEXTS.get("Children");
+            }
+
+            @Order(1000)
+            public class ChieldTableField extends AbstractTableField<ChieldTableField.Table> {
+              //@Override
+
+              @Override
+              protected boolean getConfiguredLabelVisible() {
+                return false;
+              }
+
+              @Override
+              protected int getConfiguredGridH() {
+                return 6;
+              }
+
+              @ClassId("7aedb3a5-77e2-45a9-ae84-8260654739c5")
+              public class Table extends AbstractTable {
+
+                @Override
+                protected boolean getConfiguredAutoResizeColumns() {
+                  return true;
+                }
+
+                public DateOfBirthColumn getDateOfBirthColumn() {
+                  return getColumnSet().getColumnByClass(DateOfBirthColumn.class);
+                }
+
+                public FirstNameColumn getFirstNameColumn() {
+                  return getColumnSet().getColumnByClass(FirstNameColumn.class);
+                }
+
+                public GenderGroupColumn getGenderColumn() {
+                  return getColumnSet().getColumnByClass(GenderGroupColumn.class);
+                }
+
+                public LastNameColumn getLastNameColumn() {
+                  return getColumnSet().getColumnByClass(LastNameColumn.class);
+                }
+
+                public PhoneColumn getPhoneColumn() {
+                  return getColumnSet().getColumnByClass(PhoneColumn.class);
+                }
+
+                @Order(1000)
+                public class FirstNameColumn extends AbstractStringColumn {
+                  @Override
+                  protected String getConfiguredHeaderText() {
+                    return TEXTS.get("Firstname");
+                  }
+
+                  @Override
+                  protected int getConfiguredWidth() {
+                    return 100;
+                  }
+                }
+
+                @Order(2000)
+                public class LastNameColumn extends AbstractStringColumn {
+                  @Override
+                  protected String getConfiguredHeaderText() {
+                    return TEXTS.get("Lastname");
+                  }
+
+                  @Override
+                  protected int getConfiguredWidth() {
+                    return 100;
+                  }
+                }
+
+                @Order(3000)
+                public class DateOfBirthColumn extends AbstractStringColumn {
+                  @Override
+                  protected String getConfiguredHeaderText() {
+                    return TEXTS.get("DateOfBirth");
+                  }
+
+                  @Override
+                  protected int getConfiguredWidth() {
+                    return 100;
+                  }
+                }
+
+                @Order(4000)
+                public class GenderGroupColumn extends AbstractStringColumn {
+                  @Override
+                  protected String getConfiguredHeaderText() {
+                    return TEXTS.get("Gender");
+                  }
+
+                  @Override
+                  protected int getConfiguredWidth() {
+                    return 100;
+                  }
+                }
+
+                @Order(5000)
+                public class PhoneColumn extends AbstractStringColumn {
+                  @Override
+                  protected String getConfiguredHeaderText() {
+                    return TEXTS.get("Phone1");
+                  }
+
+                  @Override
+                  protected int getConfiguredWidth() {
+                    return 100;
+                  }
+                }
+                @Order(6000)
+                public class NewMenu extends AbstractMenu {
+                  @Override
+                  protected String getConfiguredText() {
+                    return TEXTS.get("Ajout");
+                  }
+
+                  @Override
+                  protected void execAction() {
+                    PersonForm form = new PersonForm();
+                    form.getRelationTypeField().setValue(RelationCodeType.ChildrenCode.ID);
+                    form.getParentIdField().setValue(getPersonId());
+                    form.startNew();
+                  }
+
+                  @Override
+                  protected Set<? extends IMenuType> getConfiguredMenuTypes() {
+                    return CollectionUtility.hashSet(TableMenuType.SingleSelection, TableMenuType.MultiSelection, TableMenuType.EmptySpace);
+                  }
+                }
+
+              }
+
+
+            }
+
+
+          }
         }
 
 
       @Order(3000)
       public class ModifyButton extends AbstractButton {
+        protected boolean getConfiguredEnabled() {
+          return true;
+        }
         @Override
         protected String getConfiguredLabel() {
           return TEXTS.get("Modifier");
@@ -262,32 +440,10 @@ public class PersonCardForm extends AbstractForm {
       }
     }
 
-
-
-
-    //public void starModify() {startInternalExclusive(new ModifyHandler());}
   public void starRead() {
     startInternalExclusive(new ReadHandler ());
   }
-  /*  public class ModifyHandler extends AbstractFormHandler {
-        @Override
-        protected void execLoad() {
-            PersonCardFormData formData = new PersonCardFormData();
-            exportFormData(formData);
-            formData = BEANS.get(IPersonCardService.class).load(formData);
-            importFormData(formData);
 
-            setEnabledPermission(new UpdatePersonCardPermission());
-        }
-
-        @Override
-        protected void execStore() {
-            PersonCardFormData formData = new PersonCardFormData();
-            exportFormData(formData);
-            formData = BEANS.get(IPersonCardService.class).store(formData);
-            importFormData(formData);
-        }
-    }*/
   public class ReadHandler extends AbstractFormHandler {
     @Override
     protected void execLoad() {
@@ -301,26 +457,3 @@ public class PersonCardForm extends AbstractForm {
 
   }
 }
- /* public void startNew() {
-        startInternal(new NewHandler());
-    }*/
-
-   /* public class NewHandler extends AbstractFormHandler {
-        @Override
-        protected void execLoad() {
-            PersonCardFormData formData = new PersonCardFormData();
-            exportFormData(formData);
-            formData = BEANS.get(IPersonCardService.class).prepareCreate(formData);
-            importFormData(formData);
-
-            setEnabledPermission(new CreatePersonCardPermission());
-        }
-
-        @Override
-        protected void execStore() {
-            PersonCardFormData formData = new PersonCardFormData();
-            exportFormData(formData);
-            formData = BEANS.get(IPersonCardService.class).create(formData);
-            importFormData(formData);
-        }
-    }*/

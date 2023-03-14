@@ -46,6 +46,8 @@ public interface SQLs {
     + "          phone VARCHAR(20), "
     + "          mobile VARCHAR(20), "
     + "          email VARCHAR(64), "
+    + "          relationType VARCHAR(64), "
+    + "          parent_id VARCHAR(64), "
     + "          notes VARCHAR(1024) "
     + "         )";
   // end::createDB[]
@@ -183,6 +185,8 @@ public interface SQLs {
     + "         street, "
     + "         city, "
     + "         country, "
+    + "         relationType,  "
+    + "         parent_id,  "
     + "         notes "
     + "FROM     PERSON "
     + "WHERE    person_id = :personId "
@@ -196,6 +200,8 @@ public interface SQLs {
     + "         :addressBox.street, "
     + "         :addressBox.city, "
     + "         :addressBox.country, "
+    + "         :relationType, "
+    + "         :parentId, "
     + "         :notesBox.notes";
 
   String PERSON_UPDATE = ""
@@ -210,8 +216,26 @@ public interface SQLs {
     + "         street = :addressBox.street, "
     + "         city = :addressBox.city, "
     + "         country = :addressBox.country, "
+    + "         relationType = :relationType,  "
+    + "         parent_id = :parentId,  "
     + "         notes = :notesBox.notes "
     + "WHERE    person_id = :personId";
+
+  String PERSON_SELECT_CHILDREN_DATA =""
+    + "SELECT   first_name, "
+    + "         last_name, "
+    + "         date_of_birth, "
+    + "         gender, "
+    + "         phone "
+    + "FROM     PERSON "
+    + "WHERE    parent_id = :personId "
+    + "AND      relationType = :type "
+    + "INTO     :firstName, "
+    + "         :lastName, "
+    + "         :dateOfBirth, "
+    + "         :genderGroup, "
+    + "         :phone ";
+
 
   String WORK_PERSON_PAGE_SELECT = ""
           + "SELECT   work_id, "

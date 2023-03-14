@@ -5,6 +5,7 @@ import org.eclipse.scout.apps.contactscout.client.person.PersonTablePage.Table;
 import org.eclipse.scout.apps.contactscout.shared.organization.OrganisationLookupCall;
 import org.eclipse.scout.apps.contactscout.shared.person.IPersonService;
 import org.eclipse.scout.apps.contactscout.shared.person.PersonTablePageData;
+import org.eclipse.scout.apps.contactscout.shared.person.RelationCodeType;
 import org.eclipse.scout.rt.client.dto.Data;
 import org.eclipse.scout.rt.client.dto.FormData;
 import org.eclipse.scout.rt.client.ui.action.keystroke.AbstractKeyStroke;
@@ -28,6 +29,7 @@ import java.util.Set;
 
 @Data(PersonTablePageData.class)
 public class PersonTablePage extends AbstractPageWithTable<Table> {
+  private  String relationType = "PARENT";
 
     @Override
     protected boolean getConfiguredLeaf() {
@@ -239,6 +241,7 @@ public class PersonTablePage extends AbstractPageWithTable<Table> {
         protected void execAction() {
           PersonForm form = new PersonForm();
          // form.getOrganizationField().setValue(getOrganizationId());
+          form.getRelationTypeField().setValue(RelationCodeType.ParentCode.ID);
           form.addFormListener(new PersonFormListener());
           form.startNew();
         }

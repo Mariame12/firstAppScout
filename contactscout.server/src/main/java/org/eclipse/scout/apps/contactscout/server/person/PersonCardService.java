@@ -3,9 +3,11 @@ package org.eclipse.scout.apps.contactscout.server.person;
 import org.eclipse.scout.apps.contactscout.server.sql.SQLs;
 import org.eclipse.scout.apps.contactscout.shared.person.*;
 import org.eclipse.scout.rt.platform.exception.VetoException;
+import org.eclipse.scout.rt.platform.holders.NVPair;
 import org.eclipse.scout.rt.platform.text.TEXTS;
 import org.eclipse.scout.rt.security.ACCESS;
 import org.eclipse.scout.rt.server.jdbc.SQL;
+import org.eclipse.scout.rt.shared.services.common.jdbc.SearchFilter;
 
 public class PersonCardService implements IPersonCardService {
     @Override
@@ -33,7 +35,10 @@ public class PersonCardService implements IPersonCardService {
         }
 
 // TODO [mariamesasconte] add business logic here.
-        SQL.selectInto(SQLs.WORK_AND_PERSON_PAGE_SELECT, formData);;
+        SQL.selectInto(SQLs.WORK_AND_PERSON_PAGE_SELECT, formData);
+        SQL.selectInto(SQLs.PERSON_SELECT_CHILDREN_DATA, new NVPair("personId", formData.getPersonId()),
+          new NVPair("type", RelationCodeType.ChildrenCode.ID), formData.getChieldTable());
+
         return formData;
     }
 
@@ -46,4 +51,5 @@ public class PersonCardService implements IPersonCardService {
       SQL.selectInto(SQLs.WORK_PERSON_UPDATE, formData);
         return formData;
     }
+
 }

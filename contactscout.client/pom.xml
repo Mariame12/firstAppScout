@@ -28,5 +28,10 @@
       <artifactId>org.eclipse.scout.rt.client.test</artifactId>
       <scope>test</scope>
     </dependency>
+      <dependency>
+          <groupId>org.eclipse.scout.rt</groupId>
+          <artifactId>org.eclipse.scout.rt.client</artifactId>
+          <version>23.1.4</version>
+      </dependency>
   </dependencies>
 </project>
