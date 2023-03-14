@@ -74,7 +74,7 @@ public class DatabaseSetupService implements IDataStoreService {
       SQL.insert(SQLs.PERSON_CREATE_TABLE);
       LOG.info("Database table 'PERSON' created");
 
-      if (CONFIG.getPropertyValue(DatabaseProperties.DatabaseAutoPopulateProperty.class)) {
+      /*if (CONFIG.getPropertyValue(DatabaseProperties.DatabaseAutoPopulateProperty.class)) {
         SQL.insert(SQLs.PERSON_INSERT_SAMPLE + SQLs.PERSON_VALUES_01);
         SQL.insert(SQLs.PERSON_INSERT_SAMPLE + SQLs.PERSON_VALUES_02);
         // end::service[]
@@ -84,7 +84,7 @@ public class DatabaseSetupService implements IDataStoreService {
 
         // tag::service[]
         LOG.info("Database table 'PERSON' populated with sample data");
-      }
+      }*/
     }
   }
   public void createWorkTable() {

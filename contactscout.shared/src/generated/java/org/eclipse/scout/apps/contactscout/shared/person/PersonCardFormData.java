@@ -88,22 +88,8 @@ public class PersonCardFormData extends AbstractFormData {
 		return getFieldByClass(Position.class);
 	}
 
-	/**
-	 * access method for property RelationType.
-	 */
-	public String getRelationType() {
-		return getRelationTypeProperty().getValue();
-	}
-
-	/**
-	 * access method for property RelationType.
-	 */
-	public void setRelationType(String relationType) {
-		getRelationTypeProperty().setValue(relationType);
-	}
-
-	public RelationTypeProperty getRelationTypeProperty() {
-		return getPropertyByClass(RelationTypeProperty.class);
+	public RelationType getRelationType() {
+		return getFieldByClass(RelationType.class);
 	}
 
 	/**
@@ -268,7 +254,7 @@ public class PersonCardFormData extends AbstractFormData {
 		private static final long serialVersionUID = 1L;
 	}
 
-	public static class RelationTypeProperty extends AbstractPropertyData<String> {
+	public static class RelationType extends AbstractValueFieldData<String> {
 		private static final long serialVersionUID = 1L;
 	}
 

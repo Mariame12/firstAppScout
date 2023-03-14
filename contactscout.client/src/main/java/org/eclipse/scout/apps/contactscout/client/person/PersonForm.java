@@ -227,6 +227,7 @@ public class PersonForm extends AbstractForm {
         }
       }
 
+
       @Order(100)
       public class NotesBox extends AbstractNotesBox {
 

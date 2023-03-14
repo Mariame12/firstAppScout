@@ -61,19 +61,6 @@ public class PersonCardForm extends AbstractForm {
   }
 
   private  String workId;
-  private String relationType;
-
-  @FormData
-  public String getRelationType() {
-    return relationType;
-  }
-
-  @FormData
-  public void setRelationType(String relationType) {
-    this.relationType = relationType;
-  }
-
-
 
     @Override
     protected String getConfiguredTitle() {
@@ -109,7 +96,9 @@ public class PersonCardForm extends AbstractForm {
     return getFieldByClass(MainBox.ModifyButton.class);
   }
 
-
+  public MainBox.GroupBox.RelationTypeField  getRelationTypeField() {
+    return getFieldByClass(MainBox.GroupBox.RelationTypeField.class);
+  }
 
 
   @Order(1000)
@@ -172,8 +161,18 @@ public class PersonCardForm extends AbstractForm {
                 }
 
             }
+            @Order(50)
+          public class RelationTypeField extends AbstractSmartField<String> {
+            @Override
+            protected String getConfiguredLabel() {
+              return TEXTS.get("Relation");
+            }
+              @Override
+              protected Class<? extends ICodeType<?, String>> getConfiguredCodeType() {
+                return RelationCodeType.class;
+              }
+          }
         }
-
         @Order(2000)
         public class DetailBox extends AbstractTabBox {
             @Order(10)
@@ -275,6 +274,8 @@ public class PersonCardForm extends AbstractForm {
                 return "Email";
               }
             }
+
+
           }
 
           @Order(2000)
@@ -343,7 +344,7 @@ public class PersonCardForm extends AbstractForm {
                 public class LastNameColumn extends AbstractStringColumn {
                   @Override
                   protected String getConfiguredHeaderText() {
-                    return TEXTS.get("Lastname");
+                    return TEXTS.get("Lastname0");
                   }
 
                   @Override
@@ -441,7 +442,8 @@ public class PersonCardForm extends AbstractForm {
     }
 
   public void starRead() {
-    startInternalExclusive(new ReadHandler ());
+
+      startInternalExclusive(new ReadHandler ());
   }
 
   public class ReadHandler extends AbstractFormHandler {
@@ -451,6 +453,9 @@ public class PersonCardForm extends AbstractForm {
       exportFormData(formData);
       formData = BEANS.get(IPersonCardService.class).load(formData);
       importFormData(formData);
+      if(getRelationTypeField().getValue().equals(RelationCodeType.ChildrenCode.ID)){
+        getChieldBox().setVisible(false);
+      }
 
     }
 

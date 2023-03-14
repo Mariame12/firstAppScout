@@ -29,12 +29,8 @@ import java.util.Set;
 
 @Data(PersonTablePageData.class)
 public class PersonTablePage extends AbstractPageWithTable<Table> {
-  private  String relationType = "PARENT";
-
-    @Override
-    protected boolean getConfiguredLeaf() {
-        return true;
-    }
+  @Override
+   protected boolean getConfiguredLeaf() {return true;}
 
     @Override
     protected void execLoadData(SearchFilter filter) {
@@ -181,33 +177,9 @@ public class PersonTablePage extends AbstractPageWithTable<Table> {
         }
       }
 
-      /*@Order(8000)
-      public class OrganizationColumn extends AbstractStringColumn {
-        @Override
-        protected String getConfiguredHeaderText() {
-          return "Organisanistion";
-        }
-
-        @Override
-        protected int getConfiguredWidth() {
-          return 100;
-        }
-        @Override
-        protected boolean getConfiguredVisible() {
-          return false;
-        }
-        //@Override
-        protected Class<? extends ILookupCall<String>> getConfiguredLookupCall() {
-          return OrganisationLookupCall.class;
-        }
-
-      }*/
-
 
       @Override
-      protected Class<? extends IMenu> getConfiguredDefaultMenu() {
-        return EditMenu.class;
-      }
+      protected Class<? extends IMenu> getConfiguredDefaultMenu() {return ViewMenu.class;}
 
       @Order(1000)
       public class  EditMenu extends AbstractMenu {
@@ -290,7 +262,7 @@ public class PersonTablePage extends AbstractPageWithTable<Table> {
       }
 
       @Order(5000)
-      public class ViewMenu extends org.eclipse.scout.rt.client.ui.action.menu.AbstractMenu {
+      public class ViewMenu extends AbstractMenu {
         @Override
         protected String getConfiguredText() {
           return TEXTS.get("View");
@@ -308,6 +280,7 @@ public class PersonTablePage extends AbstractPageWithTable<Table> {
           form.starRead();
 
         }
+
       }
       private class PersonFormListener implements FormListener {
 
