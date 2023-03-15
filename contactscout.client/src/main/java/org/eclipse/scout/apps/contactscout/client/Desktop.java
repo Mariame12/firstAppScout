@@ -143,7 +143,7 @@ public class Desktop extends AbstractDesktop {
 
         @Override
         protected void execAction() {
-          setTheme(DARK_THEME.toLowerCase());
+          setTheme(DARK_THEME.toUpperCase());
         }
       }
     }

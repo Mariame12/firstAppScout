@@ -1,4 +1,5 @@
 package org.eclipse.scout.apps.contactscout.client.person;
+
 import org.eclipse.scout.apps.contactscout.client.common.*;
 import org.eclipse.scout.apps.contactscout.shared.organization.OrganisationLookupCall;
 import org.eclipse.scout.apps.contactscout.shared.person.*;
@@ -13,7 +14,6 @@ import org.eclipse.scout.rt.client.ui.form.fields.datefield.AbstractDateField;
 import org.eclipse.scout.rt.client.ui.form.fields.groupbox.AbstractGroupBox;
 import org.eclipse.scout.rt.client.ui.form.fields.imagefield.AbstractImageField;
 import org.eclipse.scout.rt.client.ui.form.fields.radiobuttongroup.AbstractRadioButtonGroup;
-import org.eclipse.scout.rt.client.ui.form.fields.sequencebox.AbstractSequenceBox;
 import org.eclipse.scout.rt.client.ui.form.fields.smartfield.AbstractSmartField;
 import org.eclipse.scout.rt.client.ui.form.fields.stringfield.AbstractStringField;
 import org.eclipse.scout.rt.client.ui.form.fields.tabbox.AbstractTabBox;
@@ -24,8 +24,6 @@ import org.eclipse.scout.rt.platform.text.TEXTS;
 import org.eclipse.scout.rt.platform.util.StringUtility;
 import org.eclipse.scout.rt.shared.services.common.code.ICodeType;
 import org.eclipse.scout.rt.shared.services.lookup.ILookupCall;
-//import org.eclipse.scout.rt.client.ui.form.fields.smartfield.SmartField;
-
 
 
 @FormData(value = PersonFormData.class, sdkCommand = FormData.SdkCommand.CREATE)
@@ -41,8 +39,6 @@ public class PersonForm extends AbstractForm {
   public Object computeExclusiveKey() {
     return getPersonId();
   }
-
-
 
 
   @FormData
@@ -77,15 +73,24 @@ public class PersonForm extends AbstractForm {
   public MainBox.GeneralBox getGroupBox() {
     return getFieldByClass(MainBox.GeneralBox.class);
   }
+
   //public MainBox.GeneralBox.OrganizationField  getOrganizationField(){return getFieldByClass(MainBox.GeneralBox.OrganizationField.class);}
-  public MainBox.GeneralBox.FirstNameField getFirstNameField(){return getFieldByClass(MainBox.GeneralBox.FirstNameField.class);}
-  public MainBox.GeneralBox.LastNameField getLastNameField(){return getFieldByClass(MainBox.GeneralBox.LastNameField.class) ;}
+  public MainBox.GeneralBox.FirstNameField getFirstNameField() {
+    return getFieldByClass(MainBox.GeneralBox.FirstNameField.class);
+  }
+
+  public MainBox.GeneralBox.LastNameField getLastNameField() {
+    return getFieldByClass(MainBox.GeneralBox.LastNameField.class);
+  }
 
   public MainBox.GeneralBox.ParentIdField getParentIdField() {
     return getFieldByClass(MainBox.GeneralBox.ParentIdField.class);
   }
 
-  public MainBox.GeneralBox.RelationTypeField getRelationTypeField() {return getFieldByClass(MainBox.GeneralBox.RelationTypeField.class);}
+  public MainBox.GeneralBox.RelationTypeField getRelationTypeField() {
+    return getFieldByClass(MainBox.GeneralBox.RelationTypeField.class);
+  }
+
   @Order(1000)
   public class MainBox extends AbstractGroupBox {
     @Order(1000)
@@ -156,6 +161,7 @@ public class PersonForm extends AbstractForm {
           return GenderCodeType.class;
         }
       }
+
       @Order(50)
       public class PhoneField extends AbstractStringField {
 
@@ -165,6 +171,7 @@ public class PersonForm extends AbstractForm {
           return "Phone";
         }
       }
+
       @Order(60)
       public class MobileField extends AbstractStringField {
 
@@ -174,6 +181,7 @@ public class PersonForm extends AbstractForm {
           return "Mobile";
         }
       }
+
       @Order(70)
       public class EmailField extends AbstractEmailField {
       }
@@ -184,6 +192,7 @@ public class PersonForm extends AbstractForm {
 
 
       }
+
       /*@Order(90)
       public class OrganizationField extends AbstractSmartField<String>{
 
@@ -221,6 +230,7 @@ public class PersonForm extends AbstractForm {
         protected int getConfiguredMaxLength() {
           return 128;
         }
+
         @Override
         protected boolean getConfiguredVisible() {
           return false;
@@ -255,7 +265,6 @@ public class PersonForm extends AbstractForm {
     }
 
 
-
     @Order(2000)
     public class OkButton extends AbstractOkButton {
       @Override
@@ -274,8 +283,6 @@ public class PersonForm extends AbstractForm {
   }
 
 
-
-
   public void startModify() {
     startInternalExclusive(new ModifyHandler());
   }
@@ -284,6 +291,7 @@ public class PersonForm extends AbstractForm {
   public void startNew() {
     startInternal(new NewHandler());
   }
+
   public class NewHandler extends AbstractFormHandler {
     @Override
     protected void execLoad() {
@@ -326,8 +334,6 @@ public class PersonForm extends AbstractForm {
       importFormData(formData);
     }
   }
-
-
 
 
 }
