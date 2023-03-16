@@ -101,12 +101,12 @@ public class DatabaseSetupService implements IDataStoreService {
   }
   // end::service[]
 
-  @Override
+ /* @Override
   public void dropDataStore() {
     SQL.update(SQLs.PERSON_DROP_TABLE);
     SQL.update(SQLs.ORGANIZATION_DROP_TABLE);
     SQL.update(SQLs.WORK_PERSON_DROP_TABLE);
-  }
+  }*/
 
   @Override
   public void createDataStore() {

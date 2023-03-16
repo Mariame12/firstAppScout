@@ -15,4 +15,5 @@ public interface IOrganizationService extends IService {
     OrganizationFormData load(OrganizationFormData formData);
 
     OrganizationFormData store(OrganizationFormData formData);
+    void delete (String OrganizationId);
 }

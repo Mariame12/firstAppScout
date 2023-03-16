@@ -1,7 +1,6 @@
 package org.eclipse.scout.apps.contactscout.client.person;
 
 import org.eclipse.scout.apps.contactscout.client.common.*;
-import org.eclipse.scout.apps.contactscout.shared.organization.OrganisationLookupCall;
 import org.eclipse.scout.apps.contactscout.shared.person.*;
 import org.eclipse.scout.rt.client.dto.FormData;
 import org.eclipse.scout.rt.client.ui.form.AbstractForm;
@@ -73,8 +72,6 @@ public class PersonForm extends AbstractForm {
   public MainBox.GeneralBox getGroupBox() {
     return getFieldByClass(MainBox.GeneralBox.class);
   }
-
-  //public MainBox.GeneralBox.OrganizationField  getOrganizationField(){return getFieldByClass(MainBox.GeneralBox.OrganizationField.class);}
   public MainBox.GeneralBox.FirstNameField getFirstNameField() {
     return getFieldByClass(MainBox.GeneralBox.FirstNameField.class);
   }
@@ -184,6 +181,12 @@ public class PersonForm extends AbstractForm {
 
       @Order(70)
       public class EmailField extends AbstractEmailField {
+        @Override
+        protected boolean getConfiguredMandatory() {
+          return true;
+        }
+
+
       }
 
 
@@ -192,20 +195,7 @@ public class PersonForm extends AbstractForm {
 
 
       }
-
-      /*@Order(90)
-      public class OrganizationField extends AbstractSmartField<String>{
-
-        @Override
-        protected String getConfiguredLabel() {
-          return "Organization";
-        }
-
-        @Override
-        protected Class<? extends ILookupCall<String>> getConfiguredLookupCall() {
-          return OrganisationLookupCall.class;
-        }
-      }*/
+      
       @Order(90)
       public class RelationTypeField extends AbstractSmartField<String> {
         @Override
@@ -323,6 +313,7 @@ public class PersonForm extends AbstractForm {
       formData = BEANS.get(IPersonService.class).load(formData);
       importFormData(formData);
       setEnabledPermission(new UpdatePersonPermission());
+      getForm().setSubTitle(calculateSubTitle());
     }
 
 
@@ -333,6 +324,11 @@ public class PersonForm extends AbstractForm {
       formData = BEANS.get(IPersonService.class).store(formData);
       importFormData(formData);
     }
+  }
+  protected String calculateSubTitle() {
+    return StringUtility.join(" ",
+      getFirstNameField().getValue(),
+      getLastNameField().getValue());
   }
 
 

@@ -148,15 +148,15 @@ public interface SQLs {
     + "WHERE    organization_id = :organizationId";
 
   String PERSON_PAGE_SELECT = ""
-    + "SELECT   person_id, "
-    + "         first_name, "
-    + "         last_name, "
-    + "         city, "
-    + "         country, "
-    + "         phone, "
-    + "         mobile, "
-    + "         email "
-    + "FROM     PERSON ";
+    + "SELECT   p.person_id, "
+    + "         p.first_name, "
+    + "         p.last_name, "
+    + "         p.city, "
+    + "         p.country, "
+    + "         p.phone, "
+    + "         p.mobile, "
+    + "         p.email "
+    + "FROM     PERSON p ";
 
   String PERSON_PAGE_DATA_SELECT_INTO = ""
     + "INTO     :{page.personId}, "
@@ -238,13 +238,13 @@ public interface SQLs {
 
 
   String WORK_PERSON_PAGE_SELECT = ""
-          + "SELECT   work_id, "
-          + "         position, "
-          + "         organization_id, "
-          + "         phone_work ,"
-          + "         email_work,"
-          + "         person_id"
-          + "FROM     WORK_PERSON ";
+          + "SELECT   wp.work_id, "
+          + "         wp.position, "
+          + "         wp.organization_id, "
+          + "         wp.phone_work ,"
+          + "         wp.email_work,"
+          + "         wp.person_id"
+          + "FROM     wp.WORK_PERSON ";
 
   String WORK_PERSON_PAGE_DATA_SELECT_INTO = ""
           + "INTO     :{page.workId}, " // <1>
@@ -409,6 +409,9 @@ public interface SQLs {
   String PERSON_DROP_TABLE = "DROP TABLE PERSON";
   String ORGANIZATION_DROP_TABLE = "DROP TABLE ORGANIZATION";
   String WORK_PERSON_DROP_TABLE ="DROP TABLE WORK_PERSON";
+  String WORK_PERSON_DELETE_TABLE_FROM_ORGANISATION=" DELETE FROM WORK_PERSON WHERE  organization_id= :organizationId ";
+  String WORK_PERSON_DELETE_TABLE_FROM_PERSON=" DELETE FROM WORK_PERSON WHERE  person_id= :personId ";
+  String ORGANISATION_DELETE_TABLE = "DELETE FROM ORGANIZATION WHERE organization_id = :organizationId ";
 
 
   // tag::organizationListing[]

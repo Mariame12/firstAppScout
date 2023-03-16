@@ -5,6 +5,7 @@ import org.eclipse.scout.apps.contactscout.shared.organization.OrganisationLooku
 import org.eclipse.scout.apps.contactscout.shared.person.IInfoPersonWorkService;
 import org.eclipse.scout.apps.contactscout.shared.person.InfoPersonWorkTablePageData;
 import org.eclipse.scout.rt.client.dto.Data;
+import org.eclipse.scout.rt.client.dto.FormData;
 import org.eclipse.scout.rt.client.ui.action.menu.AbstractMenu;
 import org.eclipse.scout.rt.client.ui.action.menu.IMenuType;
 import org.eclipse.scout.rt.client.ui.action.menu.TableMenuType;
@@ -23,6 +24,17 @@ import java.util.Set;
 
 @Data(InfoPersonWorkTablePageData.class)
 public class InfoPersonWorkTablePage extends AbstractPageWithTable<Table> {
+  @FormData
+  public String getOrganizationId() {
+    return organizationId;
+  }
+
+  @FormData
+  public void setOrganizationId(String organizationId) {
+    this.organizationId = organizationId;
+  }
+
+  private String organizationId;
     @Override
     protected boolean getConfiguredLeaf() {
         return true;

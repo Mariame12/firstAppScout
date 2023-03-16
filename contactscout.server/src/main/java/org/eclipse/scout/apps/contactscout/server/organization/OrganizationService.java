@@ -12,6 +12,7 @@ import org.eclipse.scout.rt.shared.services.common.jdbc.SearchFilter;
 
 import java.util.UUID;
 
+import static org.eclipse.scout.apps.contactscout.server.sql.SQLs.ORGANISATION_DELETE_TABLE;
 import static org.eclipse.scout.apps.contactscout.server.sql.SQLs.ORGANIZATION_SELECT;
 
 public class OrganizationService implements IOrganizationService {
@@ -63,5 +64,13 @@ public class OrganizationService implements IOrganizationService {
 
         SQL.update(SQLs.ORGANIZATION_UPDATE, formData);
         return formData;
+    }
+    @Override
+  public void  delete(String OrganizationId){
+      if(!ACCESS.check(new DeleteOrganizationPermission())){
+        throw new VetoException(TEXTS.get("AuthorizationFailed"));
+      }
+      SQL.delete( SQLs.WORK_PERSON_DELETE_TABLE_FROM_ORGANISATION,   new NVPair("organizationId",OrganizationId));
+      SQL.delete(SQLs.ORGANISATION_DELETE_TABLE, new NVPair("organizationId", OrganizationId));
     }
 }

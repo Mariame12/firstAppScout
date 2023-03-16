@@ -2,9 +2,12 @@ package org.eclipse.scout.apps.contactscout.client.organization;
 
 import org.eclipse.scout.apps.contactscout.client.common.CountryLookupCall;
 import org.eclipse.scout.apps.contactscout.client.organization.OrganizationTablePage.Table;
+import org.eclipse.scout.apps.contactscout.client.person.PersonTablePage;
 import org.eclipse.scout.apps.contactscout.shared.organization.IOrganizationService;
 import org.eclipse.scout.apps.contactscout.shared.organization.OrganizationTablePageData;
+import org.eclipse.scout.apps.contactscout.shared.person.IInfoPersonWorkService;
 import org.eclipse.scout.rt.client.dto.Data;
+import org.eclipse.scout.rt.client.dto.PageData;
 import org.eclipse.scout.rt.client.ui.action.menu.AbstractMenu;
 import org.eclipse.scout.rt.client.ui.action.menu.IMenuType;
 import org.eclipse.scout.rt.client.ui.action.menu.TableMenuType;
@@ -15,19 +18,21 @@ import org.eclipse.scout.rt.client.ui.desktop.outline.pages.AbstractPageWithTabl
 import org.eclipse.scout.rt.client.ui.desktop.outline.pages.IPage;
 import org.eclipse.scout.rt.client.ui.form.FormEvent;
 import org.eclipse.scout.rt.platform.BEANS;
+import org.eclipse.scout.rt.platform.Bean;
 import org.eclipse.scout.rt.platform.Order;
 import org.eclipse.scout.rt.platform.text.TEXTS;
 import org.eclipse.scout.rt.platform.util.CollectionUtility;
 import org.eclipse.scout.rt.shared.services.common.jdbc.SearchFilter;
 import org.eclipse.scout.rt.shared.services.lookup.ILookupCall;
 
+import java.util.List;
 import java.util.Set;
 
 @Data(OrganizationTablePageData.class)
 public class OrganizationTablePage extends AbstractPageWithTable<Table> {
     @Override
     protected boolean getConfiguredLeaf() {
-        return true;
+        return false;
     }
 
     @Override
@@ -46,7 +51,6 @@ public class OrganizationTablePage extends AbstractPageWithTable<Table> {
     childPage.setOrganizationId(getTable().getOrganizationIdColumn().getValue(row));
     return childPage;
   }
-
     public class Table extends AbstractTable {
       public OrganizationIdColumn getOrganizationIdColumn() {
         return getColumnSet().getColumnByClass(OrganizationIdColumn.class);
@@ -145,6 +149,11 @@ public class OrganizationTablePage extends AbstractPageWithTable<Table> {
         protected String getConfiguredText() {
           return TEXTS.get("New");
         }
+        @Override
+        protected Set<? extends IMenuType> getConfiguredMenuTypes() {
+          return CollectionUtility.hashSet(TableMenuType.SingleSelection, TableMenuType.MultiSelection, TableMenuType.EmptySpace);
+        }
+
 
         @Override
         protected void execAction() {
@@ -156,6 +165,27 @@ public class OrganizationTablePage extends AbstractPageWithTable<Table> {
           });
 
           form.startNew();
+
+        }
+      }
+
+      @Order(3000)
+      public class DeleteMenu extends AbstractMenu {
+        @Override
+        protected String getConfiguredText() {
+          return TEXTS.get("Delete");
+        }
+
+        @Override
+        protected Set<? extends IMenuType> getConfiguredMenuTypes() {
+          return CollectionUtility.hashSet(TableMenuType.SingleSelection);
+        }
+
+        @Override
+        protected void execAction() {
+          IOrganizationService service = BEANS.get(IOrganizationService.class);
+          service.delete(getOrganizationIdColumn().getSelectedValue());
+          reloadPage();
 
         }
       }

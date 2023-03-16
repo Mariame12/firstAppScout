@@ -30,6 +30,7 @@ import org.eclipse.scout.rt.platform.text.TEXTS;
 
 @FormData(value = OrganizationFormData.class, sdkCommand = FormData.SdkCommand.CREATE)
 public class OrganizationForm extends AbstractForm {
+  private String workId;
   private String organizationId;
 
   @FormData

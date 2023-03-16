@@ -3,6 +3,7 @@ package org.eclipse.scout.apps.contactscout.client.person;
 import org.eclipse.scout.apps.contactscout.client.common.CountryLookupCall;
 import org.eclipse.scout.apps.contactscout.client.person.PersonTablePage.Table;
 import org.eclipse.scout.apps.contactscout.shared.organization.OrganisationLookupCall;
+import org.eclipse.scout.apps.contactscout.shared.person.IInfoPersonWorkService;
 import org.eclipse.scout.apps.contactscout.shared.person.IPersonService;
 import org.eclipse.scout.apps.contactscout.shared.person.PersonTablePageData;
 import org.eclipse.scout.apps.contactscout.shared.person.RelationCodeType;
@@ -29,12 +30,23 @@ import java.util.Set;
 
 @Data(PersonTablePageData.class)
 public class PersonTablePage extends AbstractPageWithTable<Table> {
+
+  public String getOrganizationId() {
+    return organizationId;
+  }
+
+  public void setOrganizationId(String organizationId) {
+    this.organizationId = organizationId;
+  }
+
+  private String organizationId;
+
   @Override
    protected boolean getConfiguredLeaf() {return true;}
 
     @Override
     protected void execLoadData(SearchFilter filter) {
-        importPageData(BEANS.get(IPersonService.class).getPersonTableData(filter));
+        importPageData(BEANS.get(IPersonService.class).getPersonTableData(filter,getOrganizationId()));
     }
 
     @Override
@@ -212,7 +224,6 @@ public class PersonTablePage extends AbstractPageWithTable<Table> {
         @Override
         protected void execAction() {
           PersonForm form = new PersonForm();
-         // form.getOrganizationField().setValue(getOrganizationId());
           form.getRelationTypeField().setValue(RelationCodeType.ParentCode.ID);
           form.addFormListener(new PersonFormListener());
           form.startNew();

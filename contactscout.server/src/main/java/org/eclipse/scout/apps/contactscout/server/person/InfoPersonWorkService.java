@@ -59,9 +59,9 @@ public class InfoPersonWorkService implements IInfoPersonWorkService {
     @Override
     public InfoPersonWorkTablePageData getInfoPersonWorkTableData(SearchFilter filter) {
         InfoPersonWorkTablePageData pageData = new InfoPersonWorkTablePageData();
-// TODO [mariamesasconte] fill pageData.
         String sql = SQLs.WORK_PERSON_PAGE_SELECT + SQLs.WORK_PERSON_PAGE_DATA_SELECT_INTO;
         SQL.selectInto(sql, new NVPair("page", pageData));
         return pageData;
     }
+
 }
