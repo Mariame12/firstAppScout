@@ -63,5 +63,13 @@ public class InfoPersonWorkService implements IInfoPersonWorkService {
         SQL.selectInto(sql, new NVPair("page", pageData));
         return pageData;
     }
+  @Override
+  public void  delete(String workId ){
+    if(!ACCESS.check(new DeleteWorkPermission())){
+      throw new VetoException(TEXTS.get("AuthorizationFailed"));
+    }
+    SQL.delete(SQLs.WORK_PERSON_DELETE_TABLE , new NVPair("workID",workId));
+
+  }
 
 }

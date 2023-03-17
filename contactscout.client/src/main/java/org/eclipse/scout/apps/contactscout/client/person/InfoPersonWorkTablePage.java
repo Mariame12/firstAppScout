@@ -24,17 +24,6 @@ import java.util.Set;
 
 @Data(InfoPersonWorkTablePageData.class)
 public class InfoPersonWorkTablePage extends AbstractPageWithTable<Table> {
-  @FormData
-  public String getOrganizationId() {
-    return organizationId;
-  }
-
-  @FormData
-  public void setOrganizationId(String organizationId) {
-    this.organizationId = organizationId;
-  }
-
-  private String organizationId;
     @Override
     protected boolean getConfiguredLeaf() {
         return true;

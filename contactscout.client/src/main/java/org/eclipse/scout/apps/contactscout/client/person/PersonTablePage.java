@@ -41,6 +41,12 @@ public class PersonTablePage extends AbstractPageWithTable<Table> {
 
   private String organizationId;
 
+  public String getWorkId() {
+    return workId;
+  }
+
+  private String workId;
+
   @Override
    protected boolean getConfiguredLeaf() {return true;}
 
@@ -206,6 +212,7 @@ public class PersonTablePage extends AbstractPageWithTable<Table> {
           form.setPersonId(getPersonIdColumn().getSelectedValue());
           form.addFormListener(new PersonFormListener());
           form.startModify();
+          reloadPage();
         }
       }
 
@@ -227,6 +234,7 @@ public class PersonTablePage extends AbstractPageWithTable<Table> {
           form.getRelationTypeField().setValue(RelationCodeType.ParentCode.ID);
           form.addFormListener(new PersonFormListener());
           form.startNew();
+          reloadPage();
         }
       }
 

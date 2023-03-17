@@ -4,6 +4,7 @@ import org.eclipse.scout.apps.contactscout.server.sql.SQLs;
 import org.eclipse.scout.apps.contactscout.shared.person.*;
 import org.eclipse.scout.rt.platform.exception.VetoException;
 import org.eclipse.scout.rt.platform.holders.NVPair;
+import org.eclipse.scout.rt.platform.holders.StringHolder;
 import org.eclipse.scout.rt.platform.text.TEXTS;
 import org.eclipse.scout.rt.platform.util.StringUtility;
 import org.eclipse.scout.rt.security.ACCESS;
@@ -73,7 +74,7 @@ public class PersonService implements IPersonService {
         if (!ACCESS.check(new UpdatePersonPermission())) {
             throw new VetoException(TEXTS.get("AuthorizationFailed"));
         }
-// TODO [mariamesasconte] add business logic here.
+
       SQL.update(SQLs.PERSON_UPDATE, formData);
         return formData;
     }
@@ -82,8 +83,9 @@ public class PersonService implements IPersonService {
     if (!ACCESS.check(new DeletePersonPermission())) {
       throw new VetoException(TEXTS.get("AuthorizationFailed"));
     }
-// TODO [mariamesasconte] add business logic here.
-    SQL.delete( SQLs.WORK_PERSON_DELETE_TABLE_FROM_PERSON,   new NVPair("personId", PersonId));
+      StringHolder workId= new StringHolder();
+    SQL.selectInto(SQLs.PERSON_SELECT_WORK_ID, new NVPair("workId", workId), new NVPair("personId", PersonId) );
+    SQL.delete(SQLs.WORK_PERSON_DELETE_TABLE ,new NVPair("workId", workId.getValue()));
     SQL.delete(SQLs.PERSON_DELETE_TABLE, new NVPair("personId", PersonId));
 
   }

@@ -20,4 +20,5 @@ public interface IInfoPersonWorkService extends IService {
     InfoPersonWorkFormData store(InfoPersonWorkFormData formData);
 
     InfoPersonWorkTablePageData getInfoPersonWorkTableData(SearchFilter filter);
+  public void  delete(String workId );
 }

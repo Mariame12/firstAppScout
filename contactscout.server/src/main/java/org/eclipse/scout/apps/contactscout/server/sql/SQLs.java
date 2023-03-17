@@ -235,7 +235,11 @@ public interface SQLs {
     + "         :dateOfBirth, "
     + "         :genderGroup, "
     + "         :phone ";
-
+  String PERSON_SELECT_WORK_ID=""
+    + "SELECT work_id "
+    + " FROM  WORK_PERSON "
+    + "WHERE  person_id = :personId "
+    + "INTO   :workId";
 
   String WORK_PERSON_PAGE_SELECT = ""
           + "SELECT   wp.work_id, "
@@ -411,6 +415,7 @@ public interface SQLs {
   String WORK_PERSON_DROP_TABLE ="DROP TABLE WORK_PERSON";
   String WORK_PERSON_DELETE_TABLE_FROM_ORGANISATION=" DELETE FROM WORK_PERSON WHERE  organization_id= :organizationId ";
   String WORK_PERSON_DELETE_TABLE_FROM_PERSON=" DELETE FROM WORK_PERSON WHERE  person_id= :personId ";
+  String WORK_PERSON_DELETE_TABLE=" DELETE FROM WORK_PERSON WHERE  work_id= :workId ";
   String ORGANISATION_DELETE_TABLE = "DELETE FROM ORGANIZATION WHERE organization_id = :organizationId ";
 
 

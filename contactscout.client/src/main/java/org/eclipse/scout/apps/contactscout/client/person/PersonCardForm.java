@@ -69,6 +69,16 @@ public class PersonCardForm extends AbstractForm {
     return TEXTS.get("PersonCard");
   }
 
+  protected void ReloadForm() {
+    PersonCardFormData formData = new PersonCardFormData();
+    exportFormData(formData);
+    formData = BEANS.get(IPersonCardService.class).load(formData);
+    importFormData(formData);
+    if (getRelationTypeField().getValue().equals(RelationCodeType.ChildrenCode.ID)) {
+      getChieldBox().setVisible(false);
+    }
+
+  }
   @Override
   protected int getConfiguredDisplayHint() {
     return IForm.DISPLAY_HINT_VIEW;
@@ -406,8 +416,12 @@ public class PersonCardForm extends AbstractForm {
                 form.getRelationTypeField().setValue(RelationCodeType.ChildrenCode.ID);
                 form.getParentIdField().setValue(getPersonId());
                 form.startNew();
-              }
+                form.waitFor();
+                if(form.isFormStored()){
+                  ReloadForm();
+                }
 
+              }
               @Override
               protected Set<? extends IMenuType> getConfiguredMenuTypes() {
                 return CollectionUtility.hashSet(TableMenuType.SingleSelection, TableMenuType.MultiSelection, TableMenuType.EmptySpace);
@@ -432,14 +446,28 @@ public class PersonCardForm extends AbstractForm {
 
       @Override
       protected String getConfiguredLabel() {
-        return TEXTS.get("Modifier");
+        return TEXTS.get("ModifierInformation");
       }
 
       @Override
       protected void execClickAction() {
         InfoPersonWorkForm form = new InfoPersonWorkForm();
         form.setWorkId(getWorkId());
-        form.startModify();
+        form.setPersonId(getPersonId());
+        if (getWorkId()== null ){
+          form.startNew();
+          form.waitFor();
+          if(form.isFormStored()){
+            ReloadForm();
+          }
+        }
+        else {
+          form.startModify();
+          form.waitFor();
+          if(form.isFormStored()){
+            ReloadForm();
+          }
+        }
       }
     }
   }
