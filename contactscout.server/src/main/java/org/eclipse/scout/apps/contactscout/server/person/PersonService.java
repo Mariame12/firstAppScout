@@ -9,16 +9,18 @@ import org.eclipse.scout.rt.platform.text.TEXTS;
 import org.eclipse.scout.rt.platform.util.StringUtility;
 import org.eclipse.scout.rt.security.ACCESS;
 import org.eclipse.scout.rt.server.jdbc.SQL;
-import org.eclipse.scout.rt.shared.security.DeleteCustomColumnPermission;
 import org.eclipse.scout.rt.shared.services.common.jdbc.SearchFilter;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.UUID;
+import java.util.*;
 
 public class PersonService implements IPersonService {
+  private static final Logger LOG = LoggerFactory.getLogger(PersonService.class);
+
     @Override
     public PersonTablePageData getPersonTableData(SearchFilter filter,String organizationId) {
         PersonTablePageData pageData = new PersonTablePageData();
@@ -64,9 +66,29 @@ public class PersonService implements IPersonService {
         if (!ACCESS.check(new ReadPersonPermission())) {
             throw new VetoException(TEXTS.get("AuthorizationFailed"));
         }
+
 // TODO [mariamesasconte] add business logic here.
       SQL.selectInto(SQLs.PERSON_SELECT, formData);
-        return formData;
+      Map<String, Object []> pers = new TreeMap<>();
+
+      Object [][] rows= SQL.select(SQLs.PERSON_SELECT_FULL);
+
+        for (Object[]row:rows) {
+          Object [] t = new Object[]{row[1], row[2]};
+          pers.put((String)row[0], t);
+        }
+        LOG.info("Entrees : {}", pers.entrySet());
+        for (Map.Entry<String, Object[]> entry:pers.entrySet()){
+          LOG.info("Cles : {}", entry.getKey());
+          for (Object  i :entry.getValue()) {
+            LOG.info("Valeur : {}", i);
+          }
+        }
+
+
+     // }
+
+      return formData;
     }
 
     @Override

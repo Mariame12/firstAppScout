@@ -8,8 +8,11 @@ import org.eclipse.scout.rt.platform.text.TEXTS;
 import org.eclipse.scout.rt.security.ACCESS;
 import org.eclipse.scout.rt.server.jdbc.SQL;
 import org.eclipse.scout.rt.shared.services.common.jdbc.SearchFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PersonCardService implements IPersonCardService {
+
     @Override
     public PersonCardFormData prepareCreate(PersonCardFormData formData) {
         if (!ACCESS.check(new CreatePersonCardPermission())) {
@@ -38,8 +41,8 @@ public class PersonCardService implements IPersonCardService {
         SQL.selectInto(SQLs.WORK_AND_PERSON_PAGE_SELECT, formData);
         SQL.selectInto(SQLs.PERSON_SELECT_CHILDREN_DATA, new NVPair("personId", formData.getPersonId()),
           new NVPair("type", RelationCodeType.ChildrenCode.ID), formData.getChieldTable());
-
         return formData;
+
     }
 
     @Override

@@ -420,7 +420,6 @@ public class PersonCardForm extends AbstractForm {
                 if(form.isFormStored()){
                   ReloadForm();
                 }
-
               }
               @Override
               protected Set<? extends IMenuType> getConfiguredMenuTypes() {

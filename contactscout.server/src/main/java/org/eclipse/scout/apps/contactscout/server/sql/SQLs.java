@@ -241,6 +241,10 @@ public interface SQLs {
     + "WHERE  person_id = :personId "
     + "INTO   :workId";
 
+  String PERSON_SELECT_FULL = ""
+  + "SELECT person_id, first_name, last_name"
+  +" FROM PERSON";
+
   String WORK_PERSON_PAGE_SELECT = ""
           + "SELECT   wp.work_id, "
           + "         wp.position, "
@@ -356,14 +360,11 @@ public interface SQLs {
     + "          country )";
 
   String PERSON_VALUES_01 = ""
-    + "VALUES   ('prs01', "
+    + "VALUES   ('prs05', "
     + "          'Kenneth', "
     + "          'Hartley', "
     + "          '06.03.1977', "
-    + "          'M', "
-    + "          '2203 Edington Drive', "
-    + "          'Smyrna', "
-    + "          'US') ";
+    + "          'M') ";
 
 
   String PERSON_VALUES_02 = ""
@@ -371,42 +372,30 @@ public interface SQLs {
     + "          'Thea', "
     + "          'Ommundsen', "
     + "          '17.12.1999', "
-    + "          'F', "
-    + "          'Nermarka 246', "
-    + "          'Trondheim', "
-    + "          'NO')";
+    + "          'F')";
 
 
   String PERSON_VALUES_03 = ""
-    + "VALUES   ('prs03', "
+    + "VALUES   ('prs01', "
     + "          'Julek', "
     + "          'Ostrowski', "
     + "          '05.11.1954', "
-    + "          'M', "
-    + "          'ul. Kiepury Jana 56', "
-    + "          'Kielce', "
-    + "          'PL') ";
+    + "          'M') ";
 
   String PERSON_VALUES_04 = ""
     + "VALUES   ('prs04', "
     + "          'Joséphine', "
     + "          'Doiron', "
     + "          '18.08.1990', "
-    + "          'F', "
-    + "          '80, Rue Hubert de Lisle', "
-    + "          'Lion', "
-    + "          'FR') ";
+    + "          'F') ";
 
 
   String PERSON_VALUES_05 = ""
-    + "VALUES   ('prs05', "
+    + "VALUES   ('prs03', "
     + "          'Bagi', "
     + "          'Gergely', "
     + "          '21.03.1972', "
-    + "          'M', "
-    + "          'Tas vezér u. 5.', "
-    + "          'Kistormás', "
-    + "          'HU')";
+    + "          'M')";
 
 
   String PERSON_DELETE_TABLE="DELETE FROM PERSON WHERE person_id = :personId";
